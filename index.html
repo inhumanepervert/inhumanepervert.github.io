@@ -8,33 +8,40 @@
   <style>
     body {
       margin: 0;
-      padding: 20px;
-      min-height: 100vh;
-      background: linear-gradient(135deg, #ff69b4, #8a2be2, #00ced1, #ff1493);
-      background-size: 400% 400%;
-      animation: gradientMove 10s ease infinite;
+      padding: 0;
+      height: 100vh;
+      width: 100vw;
+      overflow: hidden;
+      background-color: black;
+      color: white;
+      font-family: 'Courier New', Courier, monospace;
       display: flex;
       flex-direction: column;
       align-items: center;
-      font-family: 'Helvetica Neue', sans-serif;
-      color: #fff;
-      text-align: center;
+      justify-content: center;
+      position: relative;
     }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+
     h1 {
       font-size: 2rem;
       margin-top: 30px;
       margin-bottom: 0.5rem;
-      text-shadow: 0 0 30px rgba(255, 255, 255, 0.7);
-      animation: glitch 1s infinite;
       text-transform: uppercase;
       letter-spacing: 2px;
-      word-break: break-word;
     }
+
     p.description {
       font-size: 0.7rem;
       margin-bottom: 1.5rem;
-      max-width: 90%;
     }
+
     a {
       color: #fff;
       text-decoration: none;
@@ -42,24 +49,12 @@
       display: block;
       margin: 18px 0;
       font-size: 1.2rem;
-      word-wrap: break-word;
     }
+
     a:hover {
       color: #ffeb3b;
     }
-    @keyframes gradientMove {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-    @keyframes glitch {
-      0% { text-shadow: 2px 0 #ff69b4, -2px 0 #00ced1; }
-      20% { text-shadow: -2px 0 #8a2be2, 2px 0 #ff1493; }
-      40% { text-shadow: 2px 0 #ff69b4, -2px 0 #00ced1; }
-      60% { text-shadow: -2px 0 #8a2be2, 2px 0 #ff1493; }
-      80% { text-shadow: 2px 0 #ff69b4, -2px 0 #00ced1; }
-      100% { text-shadow: -2px 0 #8a2be2, 2px 0 #ff1493; }
-    }
+
     footer {
       margin-top: 2rem;
       font-size: 0.75rem;
@@ -68,21 +63,60 @@
   </style>
 </head>
 <body>
+  <canvas id="rainbowCanvas"></canvas>
+  <h1>inhumane pervert</h1>
+  <p class="description">unapologetically queer, gloriously weird, and beautifully inhuman.</p>
   <div>
-    <h1>inhumane pervert</h1>
-    <p class="description">unapologetically queer, gloriously weird, and beautifully inhuman.</p>
-    <div>
-      <a href="https://x.com/inhumanepervert" target="_blank">X</a>
-      <a href="mailto:uaa566@gmail.com">Mail</a>
-      <a href="https://fetlife.com/inhumanepervert" target="_blank">Fetlife</a>
-      <a href="https://www.reddit.com/user/thfdghfsss/" target="_blank">Reddit</a>
-      <a href="http://t.me/inhumanepervert" target="_blank">Telegram</a>
-      <a href="https://onlyfans.com/inhumanepervert" target="_blank">OnlyFans</a>
-      <a href="https://xhamster.com/users/inhumanepervert/favorites/videos" target="_blank">XHamster</a>
-      <a href="https://instagram.com/inhumanepervert" target="_blank">Instagram</a>
-      <a href="https://chaturbate.com/inhumanepervert" target="_blank">Chaturbate</a>
-    </div>
+    <a href="https://x.com/inhumanepervert" target="_blank">X</a>
+    <a href="mailto:uaa566@gmail.com">Mail</a>
+    <a href="https://fetlife.com/inhumanepervert" target="_blank">Fetlife</a>
+    <a href="https://www.reddit.com/user/thfdghfsss/" target="_blank">Reddit</a>
+    <a href="http://t.me/inhumanepervert" target="_blank">Telegram</a>
+    <a href="https://onlyfans.com/inhumanepervert" target="_blank">OnlyFans</a>
+    <a href="https://xhamster.com/users/inhumanepervert/favorites/videos" target="_blank">XHamster</a>
+    <a href="https://instagram.com/inhumanepervert" target="_blank">Instagram</a>
+    <a href="https://chaturbate.com/inhumanepervert" target="_blank">Chaturbate</a>
   </div>
   <footer>made with love & rebellion 🌈</footer>
+
+  <script>
+    const canvas = document.getElementById('rainbowCanvas');
+    const ctx = canvas.getContext('2d');
+    let squares = [];
+    const colors = ['#E40303', '#FF8C00', '#FFED00', '#008026', '#004DFF', '#750787'];
+    const squareSize = 10;
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      squares = [];
+      for (let i = 0; i < canvas.height / squareSize; i++) {
+        squares.push({
+          x: Math.random() * canvas.width,
+          y: i * squareSize,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          speed: 0.5 + Math.random() * 1.5
+        });
+      }
+    }
+
+    function drawSquares() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      squares.forEach(square => {
+        ctx.fillStyle = square.color;
+        ctx.fillRect(square.x, square.y, squareSize, squareSize);
+        square.x += square.speed;
+        if (square.x > canvas.width) {
+          square.x = -squareSize;
+          square.color = colors[Math.floor(Math.random() * colors.length)];
+        }
+      });
+      requestAnimationFrame(drawSquares);
+    }
+
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+    drawSquares();
+  </script>
 </body>
 </html>
