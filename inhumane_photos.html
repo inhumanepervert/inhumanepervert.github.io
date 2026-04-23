@@ -1,57 +1,124 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Photos | inhumanepervert</title>
   <link rel="icon" href="favicon.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
   <style>
-    body {
-      margin: 0;
-      padding: 0;
-      background-color: black;
-      color: white;
-      font-family: 'Courier New', Courier, monospace;
-      text-align: center;
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html,body{width:100%;background:#6a0c18;}
+    body{font-family:'Anton',Impact,'Arial Narrow',sans-serif;}
+    canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;}
+    #content{position:relative;z-index:1;width:100%;}
+
+    .ttl{display:block;color:#d41515;text-transform:uppercase;font-weight:900;line-height:1;
+      white-space:nowrap;text-shadow:0 0 40px rgba(210,0,0,0.5),2px 2px 0 rgba(0,0,0,0.45);
+      transform-origin:left top;}
+    .dv{width:100%;height:3px;background:rgba(0,0,0,0.28);margin:4px 0;}
+
+    .gallery{
+      display:flex;flex-direction:column;align-items:center;
+      padding:24px 0 12px;gap:24px;
     }
-    h1 {
-      margin: 20px 0 10px;
-      text-transform: uppercase;
-      font-size: 1.5rem;
+    .gallery img{
+      max-width:90vw;
+      border:4px solid rgba(180,20,30,0.8);
+      display:block;
     }
-    .gallery {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+
+    .back{
+      display:block;color:#0a0000;text-decoration:none;text-transform:uppercase;
+      font-weight:900;white-space:nowrap;line-height:1;
+      border-top:1px solid rgba(0,0,0,0.12);
+      border-bottom:1px solid rgba(0,0,0,0.12);
+      text-shadow:1px 1px 0 rgba(0,0,0,0.18);
+      transform-origin:left center;
+      transition:filter .15s ease;
+      margin-top:12px;
     }
-    .gallery img {
-      max-width: 90vw;
-      margin: 20px 0;
-      border: 4px solid white;
-      border-radius: 6px;
-    }
-    a.back {
-      color: #fff;
-      background: rgba(255,255,255,0.1);
-      padding: 8px 16px;
-      text-decoration: none;
-      border-radius: 4px;
-      display: inline-block;
-      margin: 20px auto;
-    }
+    .back:hover{filter:invert(1);}
   </style>
 </head>
 <body>
-  <h1>Photo Gallery</h1>
-  <div class="gallery">
-    <img src="IMG-20160716-WA0006.jpg" alt="Photo 1">
-    <img src="IMG-20160731-WA0016.jpg" alt="Photo 2">
-    <img src="IMG-20160808-WA0028.jpg" alt="Photo 3">
-    <img src="IMG-20160905-WA0002.jpg" alt="Photo 4">
-    <img src="IMG-20160905-WA0003.jpg" alt="Photo 5">
-    <img src="IMG-20160905-WA0016.jpg" alt="Photo 6">
-    <img src="IMG-20160908-WA0000.jpg" alt="Photo 7">
+  <canvas id="drape"></canvas>
+  <div id="content">
+    <span class="ttl" id="ttl">PHOTO GALLERY</span>
+    <div class="dv"></div>
+    <div class="gallery">
+      <img src="IMG-20160716-WA0006.jpg" alt="Photo 1">
+      <img src="IMG-20160731-WA0016.jpg" alt="Photo 2">
+      <img src="IMG-20160808-WA0028.jpg" alt="Photo 3">
+      <img src="IMG-20160905-WA0002.jpg" alt="Photo 4">
+      <img src="IMG-20160905-WA0003.jpg" alt="Photo 5">
+      <img src="IMG-20160905-WA0016.jpg" alt="Photo 6">
+      <img src="IMG-20160908-WA0000.jpg" alt="Photo 7">
+    </div>
+    <a class="back" id="back" href="index.html">Back to Main</a>
   </div>
-  <a class="back" href="index.html">Back to Main</a>
+  <script>
+    var canvas=document.getElementById('drape'),ctx=canvas.getContext('2d'),W,H;
+    function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;}
+    resize();
+    window.addEventListener('resize',function(){resize();fitAll();});
+
+    var pal=[[80,10,20],[102,14,27],[124,19,33],[144,23,39],[160,27,45],[130,18,31],[104,13,24],[82,11,21]];
+    function lerp(a,b,t){return[a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t,a[2]+(b[2]-a[2])*t];}
+    function palC(t){t=Math.max(0,Math.min(.9999,t));var s=t*(pal.length-1),i=s|0;return lerp(pal[i],pal[i+1],s-i);}
+    var wvs=[{f:.002,s:.00014,a:.07,p:0},{f:.0033,s:.0001,a:.05,p:1.2},{f:.0011,s:.00019,a:.04,p:2.5},{f:.0055,s:.00007,a:.03,p:4.1},{f:.0015,s:.00016,a:.06,p:5.3}];
+    var bands=[{speed:0.0008,width:0.22,alpha:0.18,offset:0.0},{speed:0.0005,width:0.30,alpha:0.12,offset:0.4},{speed:0.0011,width:0.15,alpha:0.14,offset:0.7}];
+
+    var mc=document.createElement('canvas'),mx=mc.getContext('2d');
+    function mW(txt,sz){mx.font='900 '+sz+'px Anton,Impact';return mx.measureText(txt).width;}
+
+    function fitAll(){
+      var cw=window.innerWidth;
+      var titleSz=Math.max(20,cw*0.165);
+      var el=document.getElementById('ttl');
+      el.style.fontSize=titleSz+'px';
+      el.style.transform='scaleX('+(cw/mW(el.textContent.toUpperCase(),titleSz))+')';
+
+      var backSz=Math.max(16,cw*0.09);
+      var bk=document.getElementById('back');
+      bk.style.fontSize=backSz+'px';
+      bk.style.transform='scaleX('+(cw/mW(bk.textContent.toUpperCase(),backSz))+')';
+      bk.style.padding=(backSz*0.15)+'px 0';
+    }
+
+    var tick=0;
+    function loop(){
+      tick++;
+      for(var y=0;y<H;y+=2){
+        var base=(y/H+tick*0.00016)%1,warp=0;
+        for(var i=0;i<wvs.length;i++) warp+=Math.sin(y*wvs[i].f+wvs[i].p+tick*wvs[i].s)*wvs[i].a;
+        var pos=((base+warp*.5+.5)%1+1)%1,c=palC(pos);
+        ctx.fillStyle='rgb('+(c[0]|0)+','+(c[1]|0)+','+(c[2]|0)+')';
+        ctx.fillRect(0,y,W,2);
+      }
+      for(var b=0;b<bands.length;b++){
+        var bd=bands[b];
+        var centre=((tick*bd.speed+bd.offset)%1)*H;
+        var halfW=bd.width*H;
+        function drawBand(cy){
+          var g=ctx.createLinearGradient(0,cy-halfW,0,cy+halfW);
+          g.addColorStop(0,'rgba(200,35,55,0)');
+          g.addColorStop(0.4,'rgba(200,35,55,'+bd.alpha+')');
+          g.addColorStop(0.5,'rgba(220,45,65,'+(bd.alpha*1.4).toFixed(3)+')');
+          g.addColorStop(0.6,'rgba(200,35,55,'+bd.alpha+')');
+          g.addColorStop(1,'rgba(200,35,55,0)');
+          ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+        }
+        drawBand(centre);
+        drawBand(centre-H);
+      }
+      requestAnimationFrame(loop);
+    }
+
+    fitAll();
+    loop();
+    document.fonts.ready.then(function(){fitAll();});
+  </script>
 </body>
 </html>
