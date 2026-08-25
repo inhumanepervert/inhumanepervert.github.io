@@ -1,112 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
- <title>inhumanepervert.com</title>
-
-  <meta property="og:title" content="inhumanepervert">
-  <meta property="og:description" content="">
-  <meta property="og:image" content="https://inhumanepervert.com/og-image.png">
-  <meta property="og:url" content="https://inhumanepervert.com">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:image" content="https://inhumanepervert.com/og-image.png">
-
-  <link rel="icon" href="favicon.jpg" type="image/jpg">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>INHUMANE PERVERT</title>
   <style>
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-    html,body{width:100%;height:100%;overflow:hidden;background:#6a0c18;}
-    body{font-family:'Anton',Impact,'Arial Narrow',sans-serif;}
-    canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;}
-    #content{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;display:flex;flex-direction:column;}
-    .ttl{display:block;color:#d41515;text-transform:uppercase;font-weight:900;line-height:1;
-      white-space:nowrap;text-shadow:0 0 40px rgba(210,0,0,0.5),2px 2px 0 rgba(0,0,0,0.45);
-      transform-origin:left top;flex-shrink:0;}
-    .dv{width:100%;height:3px;background:rgba(0,0,0,0.28);flex-shrink:0;}
-    .lnk{display:block;color:#0a0000;text-decoration:none;text-transform:uppercase;
-      font-weight:900;white-space:nowrap;line-height:1;border-top:1px solid rgba(0,0,0,0.12);
-      text-shadow:1px 1px 0 rgba(0,0,0,0.18);
-      transform-origin:left center;flex-shrink:0;transition:filter .15s ease;}
-    .lnk:last-child{border-bottom:1px solid rgba(0,0,0,0.12);}
-    .lnk:hover{filter:invert(1);}
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      height: 100dvh; /* Dynamic viewport height adjusts for mobile browser UI bars */
+      background-color: #8b0000;
+      overflow: hidden; /* Prevents unwanted page scroll */
+      font-family: Impact, "Arial Black", sans-serif;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      width: 100%;
+      justify-content: space-between;
+    }
+
+    .nav-link {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      color: #000000;
+      text-transform: uppercase;
+      font-weight: 900;
+      letter-spacing: -1px;
+      /* Dynamic font size: scales smoothly with viewport height while keeping all 9 items visible */
+      font-size: clamp(1.2rem, 6dvh, 5rem);
+      line-height: 1;
+      transition: color 0.2s ease, background-color 0.2s ease;
+    }
+
+    /* Target the header/first item if you want it styled differently */
+    .nav-link.header {
+      color: #000000;
+      opacity: 0.9;
+    }
+
+    .nav-link:hover {
+      background-color: #000000;
+      color: #8b0000;
+    }
   </style>
 </head>
 <body>
-  <canvas id="drape"></canvas>
-  <div id="content">
-    <span class="ttl" id="t1">INHUMANE</span>
-    <span class="ttl" id="t2">PERVERT</span>
-    <div class="dv"></div>
-    <a class="lnk" href="https://chaturbate.com/inhumanepervert" target="_blank">Chaturbate</a>
-    <a class="lnk" href="https://fetlife.com/inhumanepervert"    target="_blank">Fetlife</a>
-    <a class="lnk" href="mailto:uaa566@gmail.com">Mail</a>
-    <a class="lnk" href="https://www.reddit.com/user/Extreme-Muffin-2771/" target="_blank">Reddit</a>
-    <a class="lnk" href="https://www.redgifs.com/users/uaa566">Redgifs</a>
-    <a class="lnk" href="http://t.me/inhumanepervert"            target="_blank">Telegram</a>
-    <a class="lnk" href="https://x.com/inhumanepervert">Twitter</a>
-    <a class="lnk" href="https://xhamster.com/users/inhumanepervert/favorites/videos" target="_blank">XHamster</a>
+
+  <div class="container">
+    <div class="nav-link header">INHUMANE PERVERT</div>
+    <a href="#" class="nav-link">CHATURBATE</a>
+    <a href="#" class="nav-link">FETLIFE</a>
+    <a href="#" class="nav-link">MAIL</a>
+    <a href="#" class="nav-link">REDDIT</a>
+    <a href="#" class="nav-link">REDGIFS</a>
+    <a href="#" class="nav-link">TELEGRAM</a>
+    <a href="#" class="nav-link">TWITTER</a>
+    <a href="#" class="nav-link">XHAMSTER</a>
   </div>
-  <script>
-    var canvas=document.getElementById('drape'),ctx=canvas.getContext('2d'),W,H;
-    function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;}
-    resize();
-    window.addEventListener('resize',function(){resize();fitAll();});
 
-    var pal=[[80,10,20],[102,14,27],[124,19,33],[144,23,39],[160,27,45],[130,18,31],[104,13,24],[82,11,21]];
-    function lerp(a,b,t){return[a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t,a[2]+(b[2]-a[2])*t];}
-    function palC(t){t=Math.max(0,Math.min(.9999,t));var s=t*(pal.length-1),i=s|0;return lerp(pal[i],pal[i+1],s-i);}
-    var wvs=[{f:.002,s:.00014,a:.07,p:0},{f:.0033,s:.0001,a:.05,p:1.2},{f:.0011,s:.00019,a:.04,p:2.5},{f:.0055,s:.00007,a:.03,p:4.1},{f:.0015,s:.00016,a:.06,p:5.3}];
-
-    var bands=[
-      {speed:0.0008,width:0.22,alpha:0.18,offset:0.0},
-      {speed:0.0005,width:0.30,alpha:0.12,offset:0.4},
-      {speed:0.0011,width:0.15,alpha:0.14,offset:0.7}
-    ];
-
-    var mc=document.createElement('canvas'),mx=mc.getContext('2d');
-    function mW(txt,sz){mx.font='900 '+sz+'px Anton,Impact';return mx.measureText(txt).width;}
-    function fitAll(){
-      var cw=window.innerWidth,ch=window.innerHeight,rowH=ch/9.4;
-      document.querySelectorAll('.ttl,.lnk').forEach(function(el){
-        el.style.fontSize=rowH+'px';
-        el.style.transform='scaleX('+(cw/mW(el.textContent.toUpperCase(),rowH))+')';
-      });
-    }
-
-    var tick=0;
-    function loop(){
-      tick++;
-      for(var y=0;y<H;y+=2){
-        var base=(y/H+tick*0.00016)%1,warp=0;
-        for(var i=0;i<wvs.length;i++) warp+=Math.sin(y*wvs[i].f+wvs[i].p+tick*wvs[i].s)*wvs[i].a;
-        var pos=((base+warp*.5+.5)%1+1)%1,c=palC(pos);
-        ctx.fillStyle='rgb('+(c[0]|0)+','+(c[1]|0)+','+(c[2]|0)+')';
-        ctx.fillRect(0,y,W,2);
-      }
-      for(var b=0;b<bands.length;b++){
-        var bd=bands[b];
-        var centre=((tick*bd.speed+bd.offset)%1)*H;
-        var halfW=bd.width*H;
-        function drawBand(cy){
-          var g=ctx.createLinearGradient(0,cy-halfW,0,cy+halfW);
-          g.addColorStop(0,'rgba(200,35,55,0)');
-          g.addColorStop(0.4,'rgba(200,35,55,'+bd.alpha+')');
-          g.addColorStop(0.5,'rgba(220,45,65,'+(bd.alpha*1.4).toFixed(3)+')');
-          g.addColorStop(0.6,'rgba(200,35,55,'+bd.alpha+')');
-          g.addColorStop(1,'rgba(200,35,55,0)');
-          ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
-        }
-        drawBand(centre);
-        drawBand(centre-H);
-      }
-      requestAnimationFrame(loop);
-    }
-
-    fitAll();
-    loop();
-    document.fonts.ready.then(function(){fitAll();});
-  </script>
 </body>
 </html>
