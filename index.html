@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
- <title>inhumanepervert.com</title>
+  <title>inhumanepervert.com</title>
 
   <meta property="og:title" content="inhumanepervert">
   <meta property="og:description" content="">
@@ -43,9 +43,9 @@
     <a class="lnk" href="https://fetlife.com/inhumanepervert"    target="_blank">Fetlife</a>
     <a class="lnk" href="mailto:uaa566@gmail.com">Mail</a>
     <a class="lnk" href="https://www.reddit.com/user/Extreme-Muffin-2771/" target="_blank">Reddit</a>
-    <a class="lnk" href="https://www.redgifs.com/users/uaa566">Redgifs</a>
+    <a class="lnk" href="https://www.redgifs.com/users/uaa566" target="_blank">Redgifs</a>
     <a class="lnk" href="http://t.me/inhumanepervert"            target="_blank">Telegram</a>
-    <a class="lnk" href="https://x.com/inhumanepervert">Twitter</a>
+    <a class="lnk" href="https://x.com/inhumanepervert" target="_blank">Twitter</a>
     <a class="lnk" href="https://xhamster.com/users/inhumanepervert/favorites/videos" target="_blank">XHamster</a>
   </div>
   <script>
@@ -58,18 +58,17 @@
     function lerp(a,b,t){return[a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t,a[2]+(b[2]-a[2])*t];}
     function palC(t){t=Math.max(0,Math.min(.9999,t));var s=t*(pal.length-1),i=s|0;return lerp(pal[i],pal[i+1],s-i);}
     var wvs=[{f:.002,s:.00014,a:.07,p:0},{f:.0033,s:.0001,a:.05,p:1.2},{f:.0011,s:.00019,a:.04,p:2.5},{f:.0055,s:.00007,a:.03,p:4.1},{f:.0015,s:.00016,a:.06,p:5.3}];
-
-    var bands=[
-      {speed:0.0008,width:0.22,alpha:0.18,offset:0.0},
-      {speed:0.0005,width:0.30,alpha:0.12,offset:0.4},
-      {speed:0.0011,width:0.15,alpha:0.14,offset:0.7}
-    ];
+    var bands=[{speed:0.0008,width:0.22,alpha:0.18,offset:0.0},{speed:0.0005,width:0.30,alpha:0.12,offset:0.4},{speed:0.0011,width:0.15,alpha:0.14,offset:0.7}];
 
     var mc=document.createElement('canvas'),mx=mc.getContext('2d');
     function mW(txt,sz){mx.font='900 '+sz+'px Anton,Impact';return mx.measureText(txt).width;}
+
     function fitAll(){
-      var cw=window.innerWidth,ch=window.innerHeight,rowH=ch/9.4;
-      document.querySelectorAll('.ttl,.lnk').forEach(function(el){
+      var cw=window.innerWidth,ch=window.innerHeight;
+      /* count rows dynamically so adding links never breaks layout */
+      var rows=document.querySelectorAll('.ttl,.lnk');
+      var rowH=ch/(rows.length+0.4);
+      rows.forEach(function(el){
         el.style.fontSize=rowH+'px';
         el.style.transform='scaleX('+(cw/mW(el.textContent.toUpperCase(),rowH))+')';
       });
